@@ -1,0 +1,7 @@
+export const APP_NAME: string = 'Ganesha IT'
+export const APP_MODE: 'live' | 'test' = 'live'
+export const APP_EMAIL: string = 'info@ganesha.co.id'
+export const APP_WEBSITE: string = 'www.ganesha.co.id'
+export const APP_HOME_PATH: string = '/'
+export const APP_ADMIN_PATH: string = '/admin'
+export const APP_USER_PATH: string = '/user'
