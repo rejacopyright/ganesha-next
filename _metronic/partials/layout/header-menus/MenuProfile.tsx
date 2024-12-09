@@ -1,5 +1,5 @@
 'use client'
-import { logoutAPI } from '@api/auth'
+// import { logoutAPI } from '@api/auth'
 import { logout } from '@redux'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
@@ -112,7 +112,7 @@ const MenuProfile: FC = () => {
           e.preventDefault()
           e.stopPropagation()
           await logout()
-          await logoutAPI(user?.user_id).catch(() => '')
+          // await logoutAPI(user?.user_id).catch(() => '')
         }}>
         <span className='menu-link px-5'>로그아웃</span>
       </div>
