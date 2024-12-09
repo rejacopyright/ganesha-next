@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'ganesha-nextjs',
+      name: 'ganesha-next',
       exec_mode: 'cluster',
       watch: ['build'],
       // Delay between restart
@@ -18,7 +18,7 @@ module.exports = {
       },
       env_prod: {
         APP_ENV: 'prod', // APP_ENV=prod
-        PORT: 3500,
+        PORT: 3200,
       },
     },
   ],
