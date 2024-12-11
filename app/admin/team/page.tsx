@@ -1,6 +1,6 @@
 'use client'
 import Tooltip from '@components/tooltip'
-import { APP_ADMIN_PATH, isDev, toCapitalize } from '@helpers'
+import { APP_ADMIN_PATH, isDev } from '@helpers'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parse } from 'qs'
@@ -35,7 +35,7 @@ const Index: FC<any> = ({ params }) => {
 
   return (
     <div className='content'>
-      <title>{`Kelas ${toCapitalize(classType === 'studio' ? 'Studio' : classType === 'functional' ? 'Fungsional' : 'Studio')}`}</title>
+      <title>Team</title>
       <Filter />
       <div className='d-flex align-items-center gap-8px fs-16px fw-500 my-10px'>
         {isDev && (
@@ -63,7 +63,7 @@ const Index: FC<any> = ({ params }) => {
                 <div className='fw-bolder fs-20px mb-5px'>{title}</div>
                 <div className='fs-14px text-truncate-3'>C++ Developer</div>
                 <div className='d-flex align-items-center justify-content-end gap-10px mt-10px'>
-                  <Tooltip placement='top' title='Lihat kelas'>
+                  <Tooltip placement='top' title='View Team'>
                     <div
                       className='btn btn-light-primary btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={(e) => {
@@ -74,7 +74,7 @@ const Index: FC<any> = ({ params }) => {
                       <div className='fas fa-eye' />
                     </div>
                   </Tooltip>
-                  <Tooltip placement='top' title='Edit kelas'>
+                  <Tooltip placement='top' title='Edit Team'>
                     <div
                       className='btn btn-light-warning btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={() => {
@@ -83,7 +83,7 @@ const Index: FC<any> = ({ params }) => {
                       <div className='fas fa-pen-alt' />
                     </div>
                   </Tooltip>
-                  <Tooltip placement='auto' title='Hapus kelas'>
+                  <Tooltip placement='auto' title='Delete Team'>
                     <div
                       className='btn btn-light-danger btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={(e) => {

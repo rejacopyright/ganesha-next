@@ -69,7 +69,7 @@ export const Filter: FC<any> = () => {
                 className='d-flex flex-center gap-6px bg-primary border border-gray-300 radius-5 h-36px px-16px cursor-pointer'
                 onClick={() => router.push(`${pathname}/create`)}>
                 <i className='fas fa-plus fs-16px text-white' />
-                <div className='fw-bolder lh-1 text-nowrap text-white'>Add New Blog</div>
+                <div className='fw-bolder lh-1 text-nowrap text-white'>Add New Team</div>
               </div>
             </div>
           </div>

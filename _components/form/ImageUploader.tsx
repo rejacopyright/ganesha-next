@@ -6,11 +6,11 @@ import { KTSVG } from '@helpers'
 import imageCompression from 'browser-image-compression'
 import { ChangeEvent, FC, useRef } from 'react'
 
-export type UploadFileType = File | Blob | MediaSource
-export type UploadFilesType = FileList | File[] | Blob[] | MediaSource[]
+export type UploadFileType = File | Blob | MediaSource | undefined
+// export type UploadFilesType = FileList | File[] | Blob[] | MediaSource[]
 
 interface ImageUploaderType {
-  onChange?: (e: UploadFilesType) => void
+  onChange?: (e: UploadFileType) => void
 }
 
 export const compressImage = async (file: File) => {
@@ -37,21 +37,15 @@ export const ImageUploader: FC<ImageUploaderType> = ({ onChange = () => '' }) =>
   const handleFileDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     if (event?.dataTransfer?.files?.length && event?.dataTransfer?.files?.[0]) {
-      const files = Promise.all(
-        Array.from(event?.dataTransfer?.files)?.map((file: File) => compressImage(file))
-      )
-      const result = (await files)?.filter((f) => f !== undefined)
-      onChange(result)
+      const file = await compressImage(event?.dataTransfer?.files?.[0])
+      onChange(file)
     }
   }
 
   const updateImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event?.target?.files?.length && event?.target?.files?.[0]) {
-      const files = Promise.all(
-        Array.from(event?.target?.files)?.map((file: File) => compressImage(file))
-      )
-      const result = (await files)?.filter((f) => f !== undefined)
-      onChange(result)
+      const file = await compressImage(event?.target?.files?.[0])
+      onChange(file)
     }
   }
 
@@ -60,7 +54,7 @@ export const ImageUploader: FC<ImageUploaderType> = ({ onChange = () => '' }) =>
       <input
         ref={fileInputRef}
         type='file'
-        multiple
+        multiple={false}
         accept='image/*'
         style={{ display: 'none' }}
         onChange={updateImage}
@@ -72,7 +66,7 @@ export const ImageUploader: FC<ImageUploaderType> = ({ onChange = () => '' }) =>
         onClick={() => fileInputRef.current?.click()}>
         <div className='mx-auto text-center'>
           <KTSVG className='' width={50} height={50} path='/media/icons/general/gen006.svg' />
-          <small className='text-gray-800 d-block pt-5px'>Tambah Gambar</small>
+          <small className='text-gray-800 d-block pt-5px'>Browse Image</small>
         </div>
       </div>
     </>

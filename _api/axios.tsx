@@ -1,11 +1,12 @@
+'use client'
 import ax from 'axios'
 import Cookies from 'js-cookie'
 import qs from 'qs'
 
-export const API_SERVER: string = 'https://user-api.ganesha.com'
+export const API_SERVER: string = process.env.NEXT_PUBLIC_API || 'http://localhost:3002'
 
 const axios = ax.create({
-  baseURL: `${process.env.REACT_APP_SERVER || API_SERVER + '/api/v1'}/`,
+  baseURL: `${API_SERVER + '/api/v1'}/`,
   withCredentials: false,
   headers: {
     Accept: 'application/json, text/plain, */*',
@@ -20,7 +21,8 @@ const axios = ax.create({
 
 // const authStore: any = Cookies.get('persist:token')
 // const token: any = JSON.parse(authStore || '{}')?.token?.replace(/"/g, '')
-const token: any = Cookies.get(`token`)
+const prefix: any = location?.pathname?.slice(1)?.split('/')?.[0] || ''
+const token: any = Cookies.get(`token_${prefix}`)
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }

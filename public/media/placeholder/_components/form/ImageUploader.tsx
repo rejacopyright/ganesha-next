@@ -72,7 +72,7 @@ export const ImageUploader: FC<ImageUploaderType> = ({ onChange = () => '' }) =>
         onClick={() => fileInputRef.current?.click()}>
         <div className='mx-auto text-center'>
           <KTSVG className='' width={50} height={50} path='/media/icons/general/gen006.svg' />
-          <small className='text-gray-800 d-block pt-5px'>Tambah Gambar</small>
+          <small className='text-gray-800 d-block pt-5px'>Browse Image</small>
         </div>
       </div>
     </>

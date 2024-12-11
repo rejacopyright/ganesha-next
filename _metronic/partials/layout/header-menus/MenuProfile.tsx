@@ -48,8 +48,12 @@ const MenuProfile: FC = () => {
       <div className='separator my-2'></div>
 
       <div className='menu-item-custom px-5'>
-        <Link href='/profile' scroll={false} className='menu-link px-5'>
-          나의 페이지
+        <Link
+          href='/profile'
+          scroll={false}
+          className='menu-link d-flex align-items-center gap-10px'>
+          <i className='las la-cog fs-20px' />
+          <div className=''>Settings</div>
         </Link>
         {/* <Link href={`/history/login`} className='menu-link px-5'>
           {translate('LOGIN_HISTORY')}
@@ -114,7 +118,10 @@ const MenuProfile: FC = () => {
           await logout()
           // await logoutAPI(user?.user_id).catch(() => '')
         }}>
-        <span className='menu-link px-5'>로그아웃</span>
+        <div className='menu-link px-13px d-flex align-items-center gap-10px'>
+          <i className='las la-sign-out-alt fs-20px' />
+          <span className=''>Logout</span>
+        </div>
       </div>
     </div>
   )

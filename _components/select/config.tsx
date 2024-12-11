@@ -52,6 +52,7 @@ export interface SelectTypes {
   isDisabled?: any
   isMulti?: any
   styleOption?: StyleTypes
+  SingleValueElement?: any
   DropdownElement?: any
   ClearElement?: any
   MultiValueElement?: any
@@ -93,17 +94,17 @@ export const customStyles: any = (sm: any = true, styleOption?: any) => ({
   control: (provided: any, state: any) => ({
     ...provided,
     '&:hover, &:focus': {
-      borderColor: styleOption?.control?.borderColor || '#0161ff',
+      borderColor: styleOption?.control?.borderColor || '#4CAF50',
       backgroundColor: styleOption?.control?.backgroundColor || '#f5f8fa',
     },
     display: 'flex',
     flexWrap: 'nowrap',
     width: '100%',
     borderRadius: 5,
-    borderColor: styleOption?.control?.borderColor || '#0161ff',
+    borderColor: styleOption?.control?.borderColor || '#4CAF50',
     padding: sm ? 3 : 5,
     cursor: 'pointer',
-    minHeight: 10,
+    minHeight: 40,
     boxShadow: 'unset',
     fontSize,
     backgroundColor:
@@ -157,8 +158,8 @@ export const customStyles: any = (sm: any = true, styleOption?: any) => ({
   }),
   multiValue: (provided: any, _state: any) => ({
     ...provided,
-    backgroundColor: '#fffaf8',
-    color: '#0161ff',
+    backgroundColor: '#f7fff7',
+    color: '#4CAF50',
     borderRadius: 100,
     padding: '0 .5rem',
     paddingRight: '.5rem',
@@ -169,8 +170,8 @@ export const customStyles: any = (sm: any = true, styleOption?: any) => ({
     ...provided,
     fontSize: '11px',
     fontWeight: 600,
-    backgroundColor: '#fffaf8',
-    color: '#0161ff',
+    backgroundColor: '#f7fff7',
+    color: '#4CAF50',
     padding: '.75rem',
     borderRadius: 100,
     ...styleOption?.multiValueLabel,
@@ -201,6 +202,9 @@ export const customStyles: any = (sm: any = true, styleOption?: any) => ({
     return { ...provided, lineHeight, ...styleOption?.input }
   },
 })
+export const SingleValue = ({ children, ...props }: any) => {
+  return <components.SingleValue {...props}>{children}</components.SingleValue>
+}
 export const DropdownIndicator = ({ element, ...props }: any) => {
   return (
     <components.DropdownIndicator {...props}>

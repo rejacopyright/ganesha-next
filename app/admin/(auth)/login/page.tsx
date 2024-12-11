@@ -43,40 +43,28 @@ const Login = ({ searchParams }) => {
   const handleOnSubmit = (values) => {
     localStorage.removeItem(`persist:${prefix}`)
     setLoading(true)
-    setTimeout(() => {
-      setStatus(null)
-      Cookies.set(`token_${prefix}`, 'token', { expires: moment().add({ hours: 6 }).toDate() })
-      setRole('admin')
-      setAdmin({})
-      // router.push(nextRequest ? atob(nextRequest) : `/${prefix}`)
-      setTimeout(() => {
-        window.location.href = nextRequest ? atob(nextRequest) : `/${prefix}`
-      }, 300)
-    }, 500)
-    false &&
-      loginUser({ username: values?.email, password: values?.password })
-        .then(async ({ data }: any) => {
-          const { user, token } = data || {}
-          const payload: any = getJWTPayload(token)
-
-          if (user?.id) {
-            setStatus(null)
-            Cookies.set(`token_${prefix}`, token, { expires: moment.unix(payload?.exp).toDate() })
-            setRole('admin')
-            setAdmin(user)
-            // router.push(nextRequest ? atob(nextRequest) : `/${prefix}`)
-            setTimeout(() => {
-              window.location.href = nextRequest ? atob(nextRequest) : `/${prefix}`
-            }, 300)
-          }
-        })
-        .catch((err: any) => {
-          const message: any = err?.response?.data?.message || err?.message || ''
-          setStatus(message)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+    loginUser({ username: values?.email, password: values?.password })
+      .then(async ({ data }: any) => {
+        const { user, token } = data || {}
+        const payload: any = getJWTPayload(token)
+        if (user?.id) {
+          setStatus(null)
+          Cookies.set(`token_${prefix}`, token, { expires: moment.unix(payload?.exp).toDate() })
+          setRole('admin')
+          setAdmin(user)
+          // router.push(nextRequest ? atob(nextRequest) : `/${prefix}`)
+          setTimeout(() => {
+            window.location.href = nextRequest ? atob(nextRequest) : `/${prefix}`
+          }, 300)
+        }
+      })
+      .catch((err: any) => {
+        const message: any = err?.response?.data?.message || err?.message || ''
+        setStatus(message)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
