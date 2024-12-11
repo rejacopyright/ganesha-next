@@ -1,11 +1,10 @@
 'use client'
 
 import BreadCumb from '@client/Components/Common/BreadCumb'
+import data from '@client/Data/servicePage.json'
+import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
-import data from '@client/Data/servicePage.json'
-import ProjectDetailsCenter1 from '@client/Components/ProjectDetails/ProjectDetailsCenter1'
-import dynamic from 'next/dynamic'
 
 const Ransomware = dynamic(() => import('./_static/ransomware'))
 const Ecert = dynamic(() => import('./_static/ecert'))
@@ -18,7 +17,6 @@ const Index: FC<any> = () => {
   const [element, setElement] = useState(<Ransomware />)
 
   useEffect(() => {
-    console.log(params, 'oke')
     switch (params) {
       case 'ransomware':
         setElement(<Ransomware />)

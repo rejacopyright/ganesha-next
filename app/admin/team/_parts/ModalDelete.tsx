@@ -1,3 +1,4 @@
+import { deleteTeam } from '@api/team'
 import { ToastMessage } from '@components/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
@@ -19,13 +20,25 @@ const Index: FC<{
   }, [detail, show])
 
   const handleDelete = () => {
-    setBtnLoading(true)
-    setTimeout(() => {
-      ToastMessage({ type: 'success', message: 'Successfully removed' })
-      setShow(false)
-      queryClient.resetQueries({ queryKey })
-      setBtnLoading(false) // finally
-    }, 500)
+    if (data?.id) {
+      setBtnLoading(true)
+      deleteTeam(data?.id)
+        .then(({ data }: any) => {
+          if (data?.status === 'success') {
+            ToastMessage({ type: 'success', message: data?.message })
+            setShow(false)
+            queryClient.resetQueries({ queryKey })
+          }
+        })
+        .catch((err: any) => {
+          let message = err?.response?.data?.message || err?.message
+          if (typeof message === 'object') {
+            message = Object.values(message)?.[0]
+          }
+          ToastMessage({ type: 'error', message })
+        })
+        .finally(() => setBtnLoading(false))
+    }
   }
 
   return (
@@ -40,7 +53,7 @@ const Index: FC<{
           <div className='p-15px d-flex flex-center h-100px'>
             <div className='text-center fs-14px'>
               <span className=''>Are you sure want to remove</span>
-              <span className='fw-bolder mx-5px'>{data?.title || 'xxx'}</span>
+              <span className='fw-bolder mx-5px'>{data?.full_name || ''}</span>
               <span className=''>?</span>
             </div>
           </div>
@@ -61,7 +74,7 @@ const Index: FC<{
               ) : (
                 <>
                   <i className='fas fa-trash-alt p-0 text-white fs-14px mb-1px' />
-                  <div className='fs-14px me-5px'>Hapus</div>
+                  <div className='fs-14px me-5px'>Delete</div>
                 </>
               )}
             </button>

@@ -1,6 +1,5 @@
 'use client'
 
-import { API_SERVER } from '@api/axios'
 import { createTeam, getDetailTeam, updateTeam } from '@api/team'
 import { ToastMessage } from '@components/toast'
 import { APP_ADMIN_PATH, blobToBase64, urlToBase64 } from '@helpers'
@@ -64,7 +63,9 @@ const Index: FC<any> = () => {
     queryFn: async () => {
       const api = await getDetailTeam(team_id as string)
       const newData = api?.data
-      newData.image = await urlToBase64(`${API_SERVER}/static/images/team/${api?.data?.avatar}`)
+      if (api?.data?.avatar) {
+        newData.image = await urlToBase64(api?.data?.avatar)
+      }
       return newData
     },
   })
@@ -123,16 +124,13 @@ const Index: FC<any> = () => {
     if (isEdit) {
       formik.setValues({
         image: detailTeam?.image || '',
-        name: detailTeam?.name || '',
-        default_fee: detailTeam?.default_fee || '',
-        province_id: detailTeam?.province?.id
-          ? {
-              value: detailTeam?.province?.id,
-              label: `${detailTeam?.province?.first_name} ${detailTeam?.province?.last_name}`,
-            }
-          : {},
+        full_name: detailTeam?.full_name || '',
         gender: detailTeam?.gender || 3,
-        description: detailTeam?.description || '',
+        email: detailTeam?.email || '',
+        phone: detailTeam?.phone || '',
+        title: detailTeam?.title || '',
+        category: detailTeam?.category || '',
+        social: detailTeam?.social || '',
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,7 +141,7 @@ const Index: FC<any> = () => {
         <div className='bg-white shadow-xs radius-15'>
           <div className='border-bottom border-gray-300 py-10px px-20px m-0 d-flex align-items-center'>
             <div className='fas fa-info-circle me-10px' />
-            <div className='fw-bold fs-14px'>Add New Team</div>
+            <div className='fw-bold fs-14px'>{isEdit ? 'Update' : 'Add New'} Team</div>
           </div>
           <div className='px-20px py-10px'>
             <div className='row'>

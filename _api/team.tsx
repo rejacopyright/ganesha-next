@@ -23,10 +23,10 @@ export const deleteTeam = (id: string) => {
   })
 }
 
-export const getTeam = (service_id: string = 'studio', params?: any) => {
+export const getTeam = (params?: any) => {
   return axios({
     method: 'get',
-    url: `team/${service_id}`,
+    url: `team`,
     params,
   })
 }

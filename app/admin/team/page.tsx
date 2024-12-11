@@ -1,37 +1,44 @@
 'use client'
+import { getTeam } from '@api/team'
 import Tooltip from '@components/tooltip'
 import { APP_ADMIN_PATH, isDev } from '@helpers'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parse } from 'qs'
-import { FC, use, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { Filter } from './_parts/Filter'
 import ModalDelete from './_parts/ModalDelete'
 import ModalView from './_parts/ModalView'
 
-const Index: FC<any> = ({ params }) => {
+const Index: FC<any> = () => {
   const router = useRouter()
-  const thisParams: any = use(params)
   const queryClient = useQueryClient()
   const searchParams = useSearchParams()
   const queryParams = parse(searchParams.toString() || '', { ignoreQueryPrefix: true })
   const { page = 1, limit = 5 } = queryParams
-  const classType = thisParams?.class
 
   const [tmpDetail, setTmpDetail] = useState<any>()
   // MODALS
   const [showModalView, setShowModalView] = useState<boolean>(false)
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
 
-  const dataClassQueryParams: any = {
-    service_id: classType,
+  const dataTeamQueryParams: any = {
     q: queryParams?.q || '',
     page,
     limit,
   }
 
-  const dataClass: any = ['Name 1', 'Name 2', 'Name 3']
+  const dataTeamQuery: any = useQuery({
+    // initialData: {data: []},
+    queryKey: ['getTeam', { dataTeamQueryParams }],
+    queryFn: () => getTeam(dataTeamQueryParams),
+    select: ({ data }: any) => {
+      const res: any = data || {}
+      return res
+    },
+  })
+  const dataTeam: any = dataTeamQuery?.data?.data || []
 
   return (
     <div className='content'>
@@ -42,33 +49,33 @@ const Index: FC<any> = ({ params }) => {
           <div
             className='btn btn-sm btn-dark m-0 py-1 px-3 ms-auto'
             onClick={() => {
-              queryClient.resetQueries({ queryKey: ['getClass'] })
+              queryClient.resetQueries({ queryKey: ['getTeam'] })
             }}>
             Clear Cache
           </div>
         )}
       </div>
       <div className='row m-0'>
-        {dataClass?.map((title, index: number) => (
+        {dataTeam?.map((item, index: number) => (
           <div key={index} className='col-xl-4 col-md-3 col'>
             <div className='card-2 radius-15 user-select-none my-10px bg-white'>
               <div
                 className='w-100 h-300px'
                 style={{
-                  background: `#fff url(/client/img/team2-img${index + 1}.png) center / cover no-repeat`,
+                  background: `#fff url(${item?.avatar || '/media/placeholder/avatar.svg'}) center / cover no-repeat`,
                   borderRadius: '15px 15px 0 0',
                 }}
               />
               <div className='py-10px px-15px'>
-                <div className='fw-bolder fs-20px mb-5px'>{title}</div>
-                <div className='fs-14px text-truncate-3'>C++ Developer</div>
+                <div className='fw-bolder fs-20px mb-5px'>{item?.full_name}</div>
+                <div className='fs-14px text-truncate-3'>{item?.title || ''}</div>
                 <div className='d-flex align-items-center justify-content-end gap-10px mt-10px'>
                   <Tooltip placement='top' title='View Team'>
                     <div
                       className='btn btn-light-primary btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={(e) => {
                         e.stopPropagation()
-                        setTmpDetail({})
+                        setTmpDetail(item)
                         setShowModalView(true)
                       }}>
                       <div className='fas fa-eye' />
@@ -78,7 +85,7 @@ const Index: FC<any> = ({ params }) => {
                     <div
                       className='btn btn-light-warning btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={() => {
-                        router.push(`${APP_ADMIN_PATH}/product/xxx/detail`)
+                        router.push(`${APP_ADMIN_PATH}/team/create?id=${item?.id}`)
                       }}>
                       <div className='fas fa-pen-alt' />
                     </div>
@@ -88,7 +95,7 @@ const Index: FC<any> = ({ params }) => {
                       className='btn btn-light-danger btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={(e) => {
                         e.stopPropagation()
-                        setTmpDetail({})
+                        setTmpDetail(item)
                         setShowModalDelete(true)
                       }}>
                       <div className='fas fa-trash-alt' />
@@ -101,15 +108,15 @@ const Index: FC<any> = ({ params }) => {
         ))}
       </div>
 
-      {/* Modal View Class */}
+      {/* Modal View Team */}
       <ModalView show={showModalView} setShow={setShowModalView} detail={tmpDetail} />
 
-      {/* Modal Delete Class */}
+      {/* Modal Delete Team */}
       <ModalDelete
         show={showModalDelete}
         setShow={setShowModalDelete}
         detail={tmpDetail}
-        queryKey={['getClass', { dataClassQueryParams }]}
+        queryKey={['getTeam', { dataTeamQueryParams }]}
       />
     </div>
   )
