@@ -18,9 +18,9 @@ const Index: FC<FormProps> = ({ formik }) => {
       {Boolean(image) && (
         <div className='col-auto my-10px mx-auto'>
           <div
-            className='w-150px h-150px btn border border-gray-300 d-flex flex-center position-relative radius-15'
+            className='w-300px h-150px btn border border-gray-300 d-flex flex-center position-relative radius-15'
             style={{
-              background: `#fff url(${typeof image === 'string' ? image : URL.createObjectURL(image)}) center / cover no-repeat`,
+              background: `#fff url(${typeof image === 'string' ? image : URL.createObjectURL(image)}) center / contain no-repeat`,
             }}>
             <div className='position-absolute top-0 end-0 p-4px'>
               <div
@@ -36,8 +36,8 @@ const Index: FC<FormProps> = ({ formik }) => {
         </div>
       )}
       {!image && (
-        <div className='col-auto my-10px'>
-          <div className='w-150px h-150px'>
+        <div className='col-auto my-10px mx-auto'>
+          <div className='w-300px h-150px'>
             <ImageUploader
               onChange={(e: any) => {
                 if (e) {

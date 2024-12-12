@@ -8,7 +8,7 @@ import { useFormik } from 'formik'
 import dynamic from 'next/dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parse } from 'qs'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
 
 const FormImage = dynamic(() => import('./_form/ImageUpload'))
@@ -16,9 +16,11 @@ const FormMain = dynamic(() => import('./_form/main'))
 
 export interface FormValues {
   image: any
-  title?: string
-  category?: string
   isImageChanged?: boolean
+  title?: string
+  product_id?: string
+  description?: string
+  tags?: string[]
 }
 
 const validationSchema = Yup.object().shape({
@@ -34,12 +36,6 @@ const Index: FC<any> = () => {
 
   const [submitBtnIsLoading, setSubmitBtnIsLoading] = useState<boolean>(false)
 
-  const initialValues = {
-    title: '',
-    image: '',
-    category: 'R&D',
-  }
-
   const detailBlogQuery: any = useQuery({
     // initialData: {data: []},
     enabled: isEdit,
@@ -47,8 +43,8 @@ const Index: FC<any> = () => {
     queryFn: async () => {
       const api = await getDetailBlog(blog_id as string)
       const newData = api?.data
-      if (api?.data?.avatar) {
-        newData.image = await urlToBase64(api?.data?.avatar)
+      if (api?.data?.image) {
+        newData.image = await urlToBase64(api?.data?.image)
       }
       return newData
     },
@@ -56,8 +52,17 @@ const Index: FC<any> = () => {
 
   const detailBlog = detailBlogQuery?.data || {}
 
+  const initialValues = {
+    title: detailBlog?.title || '',
+    description: detailBlog?.description || '',
+    image: detailBlog?.image || '',
+    product_id: detailBlog?.product_id || '',
+    tags: detailBlog?.tags || [],
+  }
+
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (val: any) => {
       // setSubmitBtnIsLoading(true)
@@ -73,8 +78,10 @@ const Index: FC<any> = () => {
       const isImageChanged = imagefromFormik !== imagefromAPI
 
       const params: FormValues = {
+        product_id: val?.product_id || '',
         title: val?.title,
-        category: val?.category || '',
+        description: val?.description,
+        tags: val?.tags || [],
         image: base64image,
         isImageChanged,
       }
@@ -99,33 +106,25 @@ const Index: FC<any> = () => {
     },
   })
 
-  useEffect(() => {
-    if (isEdit) {
-      formik.setValues({
-        image: detailBlog?.image || '',
-        title: detailBlog?.title || '',
-        category: detailBlog?.category || '',
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailBlog, isEdit])
   return (
     <div className='content'>
       <form action='' onSubmit={formik.handleSubmit}>
+        <div className='bg-white shadow-xs radius-15 mb-20px'>
+          <div className='border-bottom border-gray-300 py-10px px-20px m-0 d-flex align-items-center'>
+            <div className='fas fa-info-circle me-10px' />
+            <div className='fw-bold fs-14px'>Blog Image</div>
+          </div>
+          <div className='px-20px py-10px'>
+            <FormImage formik={formik} />
+          </div>
+        </div>
         <div className='bg-white shadow-xs radius-15'>
           <div className='border-bottom border-gray-300 py-10px px-20px m-0 d-flex align-items-center'>
             <div className='fas fa-info-circle me-10px' />
-            <div className='fw-bold fs-14px'>{isEdit ? 'Update' : 'Add New'} Blog</div>
+            <div className='fw-bold fs-14px'>Blog Detail</div>
           </div>
           <div className='px-20px py-10px'>
-            <div className='row'>
-              <div className='col-auto'>
-                <FormImage formik={formik} />
-              </div>
-              <div className='col'>
-                <FormMain formik={formik} />
-              </div>
-            </div>
+            <FormMain formik={formik} />
           </div>
         </div>
         <div

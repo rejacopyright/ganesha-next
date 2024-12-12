@@ -1,5 +1,10 @@
+import { getProduct } from '@api/product'
+import { getTag } from '@api/settings'
+import TextEditor from '@components/form/TextEditor'
+import { Select as SelectAjaxMultiple } from '@components/select/ajaxMultiple'
 import { Select as SelectData } from '@components/select/select'
 import { configClass } from '@helpers'
+import { useQuery } from '@tanstack/react-query'
 import { FormikProps } from 'formik'
 import { FC } from 'react'
 
@@ -10,9 +15,21 @@ interface FormProps {
 }
 
 const Index: FC<FormProps> = ({ formik }) => {
+  const dataProductQuery: any = useQuery({
+    // initialData: {data: []},
+    queryKey: ['getProductAsCategories'],
+    queryFn: () => getProduct({ page: 1, limit: 100 }),
+    select: ({ data }: any) => {
+      const res: any = data || {}
+      return res
+    },
+  })
+  const dataProduct: any = dataProductQuery?.data?.data || []
+  const categories: any = dataProduct?.map(({ id, name }) => ({ value: id, label: name }))
+
   return (
     <div className='row'>
-      <div className='col-lg-6 my-10px'>
+      <div className='col-lg-8 my-10px'>
         <div className={configClass?.label}>Title</div>
         <input
           type='text'
@@ -27,16 +44,16 @@ const Index: FC<FormProps> = ({ formik }) => {
           <div className={configClass.formError}>{formik?.errors?.title}</div>
         )}
       </div>
-      <div className='col-lg-6 my-10px'>
+      <div className='col-lg-4 my-10px'>
         <div className={configClass?.label}>Category</div>
         <SelectData
           sm={true}
           name='category'
           className='p-0 text-start'
-          data={[{ value: 'all', label: 'All' }]}
+          data={[{ value: 'all', label: 'All' }, ...categories]}
           isClearable={false}
           placeholder='Choose Category'
-          defaultValue={formik?.values?.category}
+          defaultValue={formik?.values?.product_id}
           styleOption={{
             control: {
               border: '1px solid #eee',
@@ -47,9 +64,51 @@ const Index: FC<FormProps> = ({ formik }) => {
             placeholder: { color: '#000' },
           }}
           onChange={(e: any) => {
-            formik.setFieldValue('category', e?.value)
+            formik.setFieldValue('product_id', e?.value)
           }}
         />
+      </div>
+      <div className='col-12 my-10px'>
+        <div className={configClass?.label}>Pilih Trainer</div>
+        <SelectAjaxMultiple
+          api={getTag}
+          reload={false}
+          params={{}}
+          parse={(e: any) => {
+            return {
+              value: e?.id,
+              label: e?.name,
+            }
+          }}
+          sm={true}
+          name='tags'
+          // className='w-100'
+          isClearable={false}
+          placeholder='Put some tags'
+          defaultValue={formik.initialValues.tags || []}
+          onChange={(e: any) => {
+            formik.setFieldValue('tags', e)
+          }}
+        />
+        {formik?.errors?.tags && (
+          <div className={configClass.formError}>{formik?.errors?.tags?.toString()}</div>
+        )}
+      </div>
+      <div className='col-12 my-10px'>
+        <div className={configClass?.label}>Description</div>
+        <TextEditor
+          id='editor'
+          options={{ minHeight: '300px' }}
+          placeholder='Enter description here...'
+          defaultData={formik?.values?.description || ''}
+          onChange={(e: any) => {
+            formik.setFieldValue('description', e)
+          }}
+          loading={false}
+        />
+        {formik?.errors?.description && (
+          <div className={configClass.formError}>{formik?.errors?.description}</div>
+        )}
       </div>
     </div>
   )

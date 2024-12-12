@@ -1,5 +1,3 @@
-import './style.scss'
-
 import { ClearIndicator, customStyles, DropdownIndicator } from '@components/select/config'
 import { debounce, differenceWith, filter, isEqual, size, uniqBy } from 'lodash'
 import { FC, forwardRef, memo, useEffect, useState } from 'react'
@@ -17,11 +15,11 @@ interface Props {
       }>
     | any
   multiple?: any
-  params: any
+  params?: any
   limit?: any
   resultParams?: any
   api: any
-  parse: any
+  parse?: any
   reload?: any
   id?: any
   className?: any
@@ -57,7 +55,7 @@ const SelectAjax: any = (
     clearOption,
     isClearable = true,
     isDisabled = false,
-    isMulti = false,
+    isMulti = true,
   }: Props,
   ref: any
 ) => {
