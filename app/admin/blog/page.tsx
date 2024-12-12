@@ -31,7 +31,7 @@ const Index: FC<any> = () => {
 
   const dataBlogQuery: any = useQuery({
     // initialData: {data: []},
-    queryKey: ['getBlog', { dataBlogQueryParams }],
+    queryKey: ['getBlog', dataBlogQueryParams],
     queryFn: () => getBlog(dataBlogQueryParams),
     select: ({ data }: any) => {
       const res: any = data || {}
@@ -99,7 +99,7 @@ const Index: FC<any> = () => {
                       className='btn btn-light-danger btn-flex flex-center p-0 w-30px h-30px radius-50'
                       onClick={(e) => {
                         e.stopPropagation()
-                        setTmpDetail({})
+                        setTmpDetail(item)
                         setShowModalDelete(true)
                       }}>
                       <div className='fas fa-trash-alt' />
@@ -120,7 +120,7 @@ const Index: FC<any> = () => {
         show={showModalDelete}
         setShow={setShowModalDelete}
         detail={tmpDetail}
-        queryKey={['getBlog', { dataBlogQueryParams }]}
+        queryKey={['getBlog', dataBlogQueryParams]}
       />
     </div>
   )

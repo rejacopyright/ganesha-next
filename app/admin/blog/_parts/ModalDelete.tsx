@@ -1,3 +1,4 @@
+import { deleteBlog } from '@api/blog'
 import { ToastMessage } from '@components/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
@@ -12,6 +13,7 @@ const Index: FC<{
   const queryClient = useQueryClient()
   const [data, setData] = useState<any>()
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
+
   useEffect(() => {
     if (show) {
       setData(detail)
@@ -19,13 +21,25 @@ const Index: FC<{
   }, [detail, show])
 
   const handleDelete = () => {
-    setBtnLoading(true)
-    setTimeout(() => {
-      ToastMessage({ type: 'success', message: 'Successfully removed' })
-      setShow(false)
-      queryClient.resetQueries({ queryKey })
-      setBtnLoading(false) // finally
-    }, 500)
+    if (data?.id) {
+      setBtnLoading(true)
+      deleteBlog(data?.id)
+        .then(({ data }: any) => {
+          if (data?.status === 'success') {
+            ToastMessage({ type: 'success', message: data?.message })
+            setShow(false)
+            queryClient.resetQueries({ queryKey })
+          }
+        })
+        .catch((err: any) => {
+          let message = err?.response?.data?.message || err?.message
+          if (typeof message === 'object') {
+            message = Object.values(message)?.[0]
+          }
+          ToastMessage({ type: 'error', message })
+        })
+        .finally(() => setBtnLoading(false))
+    }
   }
 
   return (
