@@ -60,7 +60,7 @@ const Index: FC<any> = () => {
           <div key={index} className='col-xl-4 col-md-3 col'>
             <div className='card-2 radius-15 user-select-none my-10px bg-white'>
               <div
-                className='w-100 h-300px'
+                className='w-100 h-250px'
                 style={{
                   background: `#fff url(${item?.avatar || '/media/placeholder/avatar.svg'}) center / cover no-repeat`,
                   borderRadius: '15px 15px 0 0',

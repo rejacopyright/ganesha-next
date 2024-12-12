@@ -25,10 +25,10 @@
 }
 
 .gd-primary {
-  @include customGradient(#a5f, $primary);
+  @include customGradient($primary-active, $primary);
 }
 .gd-pink {
-  @include customGradient(#ff9cc3, #fd3484);
+  @include customGradient(#ff9cc3, #010001);
 }
 .gd-peach {
   @include customGradient(#ffdaee, #ff439a);

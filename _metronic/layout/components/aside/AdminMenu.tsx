@@ -46,12 +46,12 @@ const Index: FC<any> = () => {
         fontIcon='bi-app-indicator'
       />
       <AsideMenuItemWithSub
-        to={`${APP_ADMIN_PATH}/menu`}
-        title='Menu'
+        to={`${APP_ADMIN_PATH}/settings`}
+        title='Settings'
         fontIcon='bi-chat-left'
-        icon='/media/icons/abstract/abs046.svg'>
-        <AsideMenuItem to={`${APP_ADMIN_PATH}/menu/submenu1`} title='Sub Menu 1' hasBullet={true} />
-        <AsideMenuItem to={`${APP_ADMIN_PATH}/menu/submenu2`} title='Sub Menu 2' hasBullet={true} />
+        icon='/media/icons/coding/cod009.svg'>
+        <AsideMenuItem to={`${APP_ADMIN_PATH}/settings/tags`} title='Tags' hasBullet />
+        <AsideMenuItem to={`${APP_ADMIN_PATH}/settings/submenu2`} title='Sub Menu 2' hasBullet />
       </AsideMenuItemWithSub>
     </>
   )
