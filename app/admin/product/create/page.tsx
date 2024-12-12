@@ -1,91 +1,73 @@
 'use client'
 
-import { createBlog, getDetailBlog, updateBlog } from '@api/blog'
+import { createProduct, getDetailProduct, updateProduct } from '@api/product'
 import { ToastMessage } from '@components/toast'
-import { APP_ADMIN_PATH, blobToBase64, urlToBase64 } from '@helpers'
+import { APP_ADMIN_PATH } from '@helpers'
 import { useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import dynamic from 'next/dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parse } from 'qs'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
 
-const FormImage = dynamic(() => import('./_form/ImageUpload'))
 const FormMain = dynamic(() => import('./_form/main'))
 
 export interface FormValues {
-  image: any
-  title?: string
-  category?: string
-  isImageChanged?: boolean
+  name?: string
+  description?: string
 }
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
+  name: Yup.string().required('Name is required'),
 })
 
 const Index: FC<any> = () => {
   const searchParams: any = useSearchParams()
   const queryParams = parse(searchParams.toString() || '', { ignoreQueryPrefix: true })
-  const blog_id = queryParams?.id
-  const isEdit: boolean = searchParams?.has('id') && Boolean(blog_id)
+  const product_id = queryParams?.id
+  const isEdit: boolean = searchParams?.has('id') && Boolean(product_id)
   const router = useRouter()
 
   const [submitBtnIsLoading, setSubmitBtnIsLoading] = useState<boolean>(false)
 
-  const initialValues = {
-    title: '',
-    image: '',
-    category: 'R&D',
-  }
-
-  const detailBlogQuery: any = useQuery({
+  const detailProductQuery: any = useQuery({
     // initialData: {data: []},
     enabled: isEdit,
-    queryKey: ['getDetailBlog', { id: blog_id }],
+    queryKey: ['getDetailProduct', { id: product_id }],
     queryFn: async () => {
-      const api = await getDetailBlog(blog_id as string)
-      const newData = api?.data
-      if (api?.data?.avatar) {
-        newData.image = await urlToBase64(api?.data?.avatar)
-      }
-      return newData
+      const api = await getDetailProduct(product_id as string)
+      const data = api?.data
+      return data
     },
   })
 
-  const detailBlog = detailBlogQuery?.data || {}
+  const detailProduct = detailProductQuery?.data || {}
+
+  const initialValues = {
+    name: detailProduct?.name || '',
+    description: detailProduct?.description || '',
+  }
 
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (val: any) => {
-      // setSubmitBtnIsLoading(true)
-
-      let base64image = formik.values?.image
-      if (typeof formik.values?.image !== 'string') {
-        base64image = await blobToBase64(formik.values?.image)
-      }
-
-      // Check If Image is changed
-      const imagefromAPI = detailBlog?.image
-      const imagefromFormik = base64image
-      const isImageChanged = imagefromFormik !== imagefromAPI
+      setSubmitBtnIsLoading(true)
 
       const params: FormValues = {
-        title: val?.title,
-        category: val?.category || '',
-        image: base64image,
-        isImageChanged,
+        name: val?.name,
+        description: val?.description || '',
       }
 
       const apiInstance =
-        isEdit && blog_id ? updateBlog(blog_id as string, params) : createBlog(params)
+        isEdit && product_id ? updateProduct(product_id as string, params) : createProduct(params)
       apiInstance
         .then(({ data }: any) => {
           if (data?.status === 'success') {
             ToastMessage({ type: 'success', message: data?.message })
-            router.push(`${APP_ADMIN_PATH}/blog`)
+            router.push(`${APP_ADMIN_PATH}/product`)
           }
         })
         .catch((err: any) => {
@@ -99,29 +81,16 @@ const Index: FC<any> = () => {
     },
   })
 
-  useEffect(() => {
-    if (isEdit) {
-      formik.setValues({
-        image: detailBlog?.image || '',
-        title: detailBlog?.title || '',
-        category: detailBlog?.category || '',
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailBlog, isEdit])
   return (
     <div className='content'>
       <form action='' onSubmit={formik.handleSubmit}>
         <div className='bg-white shadow-xs radius-15'>
           <div className='border-bottom border-gray-300 py-10px px-20px m-0 d-flex align-items-center'>
             <div className='fas fa-info-circle me-10px' />
-            <div className='fw-bold fs-14px'>{isEdit ? 'Update' : 'Add New'} Blog</div>
+            <div className='fw-bold fs-14px'>{isEdit ? 'Update' : 'Add New'} Product</div>
           </div>
           <div className='px-20px py-10px'>
             <div className='row'>
-              <div className='col-auto'>
-                <FormImage formik={formik} />
-              </div>
               <div className='col'>
                 <FormMain formik={formik} />
               </div>
