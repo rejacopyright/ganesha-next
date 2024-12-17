@@ -38,7 +38,7 @@ const Index: FC<any> = () => {
                   <div className='team-box' data-aos='zoom-in-up' data-aos-duration='1200'>
                     <div className='image-area'>
                       <div className='image image-anime'>
-                        <img src={item?.avatar} alt='' />
+                        <img src={item?.avatar || '/media/placeholder/avatar.svg'} alt='' />
                       </div>
                       <div className='icon-area'>
                         <ul>

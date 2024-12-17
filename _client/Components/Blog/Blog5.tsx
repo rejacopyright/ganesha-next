@@ -1,8 +1,21 @@
+import { getBlog } from '@api/blog'
+import { replaceHTMLEntity } from '@helpers'
+import { useQuery } from '@tanstack/react-query'
+import moment from 'moment'
 import Link from 'next/link'
 
 import SectionTitle3 from '../Common/SectionTitle3'
 
 const Blog5 = () => {
+  const blogQuery: any = useQuery({
+    initialData: { data: {} },
+    queryKey: ['getBlog', { page: 1, limit: 3 }],
+    queryFn: () => getBlog({ page: 1, limit: 3 }),
+    select: ({ data }: any) => data,
+  })
+
+  const dataBlog: any = blogQuery?.data?.data || []
+
   return (
     <div className='blog7 sp bg-white'>
       <div className='container'>
@@ -19,104 +32,55 @@ const Blog5 = () => {
 
         <div className='space20'></div>
         <div className='row'>
-          <div className='col-lg-4 col-md-6' data-aos='zoom-in-up' data-aos-duration='700'>
-            <div className='blog-box'>
-              <div className='image image-anime'>
-                <img src='/client/img/blog1.png' alt='' />
-              </div>
-              <div className='tags-area'>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/tag6.svg' alt='' /> The IT Corner
-                </a>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/date6.svg' alt='' /> May,27,2024
-                </a>
-              </div>
-              <div className='heading7'>
-                <h4>
-                  <Link href='/blog/blog-details'>
-                    Five Ways To Develop A World className Sales Operations Function
+          {dataBlog?.map((item, key: number) => (
+            <div
+              key={key}
+              className='col-lg-4 col-md-6'
+              data-aos='zoom-in-up'
+              data-aos-duration='700'>
+              <div className='blog-box'>
+                <div className='image image-anime'>
+                  <div
+                    className='w-100 h-200px'
+                    style={{
+                      background: `#fff url(${item?.image || '/media/placeholder/blank-image.svg'}) center / cover no-repeat`,
+                      borderRadius: '15px 15px 0 0',
+                    }}
+                  />
+                </div>
+                <div className='tags-area'>
+                  <a href='#' className='tag'>
+                    <div className='d-flex flex-center gap-5px'>
+                      <img src='/client/icons/blog-icon1.png' alt='' />
+                      {item?.user?.full_name}
+                    </div>
+                  </a>
+                  <a href='#' className='tag'>
+                    <div className='d-flex flex-center gap-5px'>
+                      <img src='/client/icons/blog-icon2.png' alt='' />
+                      {moment(item?.updated_at).format('ddd, D MMM yyyy')}
+                    </div>
+                  </a>
+                </div>
+                <div className='heading7'>
+                  <h4>
+                    <Link href='/blog/blog-details'>
+                      <div className='text-truncate-2'>{item?.title}</div>
+                    </Link>
+                  </h4>
+                  <p className='text-truncate-2 mb-20px'>
+                    {item?.description ? replaceHTMLEntity(item?.description) : ''}
+                  </p>
+                  <Link href='/blog/blog-details' className='learn'>
+                    Read More
+                    <span>
+                      <i className='bi bi-arrow-right'></i>
+                    </span>
                   </Link>
-                </h4>
-                <p>
-                  Our team of seasoned professionals shares valuable knowledge, tips, and best
-                  practices
-                </p>
-                <Link href='/blog/blog-details' className='learn'>
-                  Learn More{' '}
-                  <span>
-                    <i className='bi bi-arrow-right'></i>
-                  </span>
-                </Link>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className='col-lg-4 col-md-6' data-aos='zoom-in-up' data-aos-duration='900'>
-            <div className='blog-box'>
-              <div className='image image-anime'>
-                <img src='/client/img/blog2.png' alt='' />
-              </div>
-              <div className='tags-area'>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/tag6.svg' alt='' /> The IT Corner
-                </a>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/date6.svg' alt='' /> May,27,2024
-                </a>
-              </div>
-              <div className='heading7'>
-                <h4>
-                  <Link href='/blog/blog-details'>
-                    Succession Risks That Threaten Your Leadership Strategy.
-                  </Link>
-                </h4>
-                <p>
-                  Welcome to our blog, your go-to resource for the latest insights, trends, and
-                  updates in the world.
-                </p>
-                <Link href='/blog/blog-details' className='learn'>
-                  Learn More{' '}
-                  <span>
-                    <i className='bi bi-arrow-right'></i>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className='col-lg-4 col-md-6' data-aos='zoom-in-up' data-aos-duration='1100'>
-            <div className='blog-box'>
-              <div className='image image-anime'>
-                <img src='/client/img/blog3.png' alt='' />
-              </div>
-              <div className='tags-area'>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/tag6.svg' alt='' /> The IT Corner
-                </a>
-                <a href='#' className='tag'>
-                  <img src='/client/icons/date6.svg' alt='' /> May,27,2024
-                </a>
-              </div>
-              <div className='heading7'>
-                <h4>
-                  <Link href='/blog/blog-details'>
-                    What Do Employee Engagement Surveys Tell You About Employee?
-                  </Link>
-                </h4>
-                <p>
-                  Whether you are seeking expert advice on cybersecurity, cloud computing, data
-                  analytics,
-                </p>
-                <Link href='/blog/blog-details' className='learn'>
-                  Learn More{' '}
-                  <span>
-                    <i className='bi bi-arrow-right'></i>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

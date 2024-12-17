@@ -3,6 +3,7 @@
 import { getBlog } from '@api/blog'
 import BreadCumb from '@client/Components/Common/BreadCumb'
 import { TablePagination } from '@components/table/pagination'
+import { replaceHTMLEntity } from '@helpers'
 import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import Link from 'next/link'
@@ -49,9 +50,9 @@ const Index: FC<any> = () => {
                 <div className='blog-box' data-aos='zoom-in-up' data-aos-duration='1100'>
                   <div className='image image-anime'>
                     <div
-                      className='w-100 h-150px'
+                      className='w-100 h-200px'
                       style={{
-                        background: `#fff url(${item?.image || '/media/placeholder/blank-image.svg'}) center / contain no-repeat`,
+                        background: `#fff url(${item?.image || '/media/placeholder/blank-image.svg'}) center / cover no-repeat`,
                         borderRadius: '15px 15px 0 0',
                       }}
                     />
@@ -72,6 +73,9 @@ const Index: FC<any> = () => {
                         <div className='text-truncate-2'>{item?.title}</div>
                       </Link>
                     </h4>
+                    <p className='text-truncate-2 mb-20px'>
+                      {item?.description ? replaceHTMLEntity(item?.description) : ''}
+                    </p>
                     <Link href={`/blog/detail/${item?.id}`} className='learn'>
                       Read More
                       <span className='ms-3'>

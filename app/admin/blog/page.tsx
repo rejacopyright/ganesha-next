@@ -7,18 +7,20 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { parse, stringify } from 'qs'
 import { FC, useState } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
 
 import { Filter } from './_parts/Filter'
 import ModalDelete from './_parts/ModalDelete'
 import ModalView from './_parts/ModalView'
 
 const Index: FC<any> = () => {
+  const user: any = useSelector(({ user }: any) => user?.admin, shallowEqual)
   const router = useRouter()
   const queryClient = useQueryClient()
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const queryParams = parse(searchParams.toString() || '', { ignoreQueryPrefix: true })
-  const { page = 1, limit = 5 }: any = queryParams
+  const { page = 1, limit = 9 }: any = queryParams
 
   const [tmpDetail, setTmpDetail] = useState<any>()
   // MODALS
@@ -26,6 +28,7 @@ const Index: FC<any> = () => {
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
 
   const dataBlogQueryParams: any = {
+    user_id: user?.id || '',
     q: queryParams?.q || '',
     page,
     limit,
