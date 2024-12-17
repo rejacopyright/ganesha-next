@@ -1,8 +1,22 @@
+import { getProduct } from '@api/product'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 
 import DropDown from './DropDown'
 
 export default function Nav({ setMobileToggle }) {
+  const productQuery: any = useQuery({
+    initialData: { data: [] },
+    queryKey: ['getProduct'],
+    queryFn: () => getProduct(),
+    select: ({ data }: any) => {
+      const res: any = data?.data || []
+      return res
+    },
+  })
+
+  const product: any = productQuery?.data || []
+
   return (
     <ul className='cs_nav_list fw-medium'>
       <li className='menu-item-single'>
@@ -14,26 +28,13 @@ export default function Nav({ setMobileToggle }) {
         </Link>
         <DropDown>
           <ul>
-            <li>
-              <Link href='/product/ransomware' onClick={() => setMobileToggle(false)}>
-                Ransomware
-              </Link>
-            </li>
-            <li>
-              <Link href='/product/ecert' onClick={() => setMobileToggle(false)}>
-                E-Certificate
-              </Link>
-            </li>
-            <li>
-              <Link href='/product/data-protection' onClick={() => setMobileToggle(false)}>
-                Data Protection
-              </Link>
-            </li>
-            <li>
-              <Link href='/product/smart-security' onClick={() => setMobileToggle(false)}>
-                Smart Security
-              </Link>
-            </li>
+            {product?.map((item, key: number) => (
+              <li key={key}>
+                <Link href={`/product/${item?.id}`} onClick={() => setMobileToggle(false)}>
+                  {item?.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </DropDown>
       </li>

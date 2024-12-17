@@ -1,10 +1,11 @@
 'use client'
 import { getBlog } from '@api/blog'
+import { TablePagination } from '@components/table/pagination'
 import Tooltip from '@components/tooltip'
 import { APP_ADMIN_PATH, isDev, replaceHTMLEntity } from '@helpers'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { parse } from 'qs'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { parse, stringify } from 'qs'
 import { FC, useState } from 'react'
 
 import { Filter } from './_parts/Filter'
@@ -15,8 +16,9 @@ const Index: FC<any> = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const searchParams = useSearchParams()
+  const pathname = usePathname()
   const queryParams = parse(searchParams.toString() || '', { ignoreQueryPrefix: true })
-  const { page = 1, limit = 5 } = queryParams
+  const { page = 1, limit = 5 }: any = queryParams
 
   const [tmpDetail, setTmpDetail] = useState<any>()
   // MODALS
@@ -39,8 +41,13 @@ const Index: FC<any> = () => {
     },
   })
   const dataBlog: any = dataBlogQuery?.data?.data || []
-  const _dataBlogTotal = dataBlogQuery?.data?.total || 0
+  const dataBlogTotal = dataBlogQuery?.data?.total || 0
   const _pageIsLoading: any = !dataBlogQuery?.isFetched
+
+  const addOrEditParams = (queries: { [key: string]: any }) => {
+    const resParams = stringify({ ...queryParams, ...queries }, { encode: false })
+    router.replace(`${pathname}?${resParams}`)
+  }
 
   return (
     <div className='content'>
@@ -111,6 +118,25 @@ const Index: FC<any> = () => {
           </div>
         ))}
       </div>
+      {dataBlogTotal > limit && (
+        <div className='my-30px text-end position-sticky bottom-0 border bg-white radius-10 px-16px'>
+          <div className='row'>
+            <div className='col-12'>
+              <div className=''>
+                <TablePagination
+                  limit={limit}
+                  showLimit={false}
+                  showCount={true}
+                  page={page}
+                  total={dataBlogTotal}
+                  onChangeLimit={() => ''}
+                  onChangePage={(e: any) => addOrEditParams({ page: e })}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal View Blog */}
       <ModalView show={showModalView} setShow={setShowModalView} detail={tmpDetail} />

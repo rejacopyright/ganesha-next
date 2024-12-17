@@ -69,7 +69,7 @@ const Index: FC<FormProps> = ({ formik }) => {
         />
       </div>
       <div className='col-12 my-10px'>
-        <div className={configClass?.label}>Pilih Trainer</div>
+        <div className={configClass?.label}>Tags</div>
         <SelectAjaxMultiple
           api={getTag}
           reload={false}

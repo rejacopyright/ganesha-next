@@ -103,7 +103,7 @@ export const Searchbox: FC<SearchboxProps> = ({
         <div className='position-absolute end-0'>
           <div className='ps-1 pe-3 pt-2px'>
             <span
-              className={`spinner-border w-15px h-15px text-gray-400 border-1 opacity-50`}></span>
+              className={`spinner-border w-15px h-15px text-primary border-1 opacity-50-xxx`}></span>
           </div>
         </div>
       )}

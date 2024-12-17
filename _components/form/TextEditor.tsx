@@ -97,6 +97,12 @@ let Index: FC<Props> = ({
     setData(defaultData)
   }, [defaultData, loading])
 
+  // useDeepEffect(() => {
+  //   if (!loading && editor?.current && options) {
+  //     editor?.current?.setOptions?.(options)
+  //   }
+  // }, [options, loading])
+
   // setTimeout(() => {
   //   editor?.current?.core?.focus?.()
   // }, 1000)
@@ -117,7 +123,7 @@ let Index: FC<Props> = ({
           return files
         }}
         setContents={setContent ? data : ''} // setContent = true, will be show defaultData on module custom email template
-        setDefaultStyle='font-family: inherit'
+        setDefaultStyle='font-family: inherit; overflow: unset'
         setOptions={{
           placeholder: '',
           historyStackDelayTime: 500, // same as debounce
