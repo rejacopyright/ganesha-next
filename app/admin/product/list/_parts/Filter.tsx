@@ -1,7 +1,10 @@
+import { getProductCategory } from '@api/product'
 import { Sticky } from '@components/cards/Sticky'
 import { FilterDate } from '@components/filter/Calendar'
 import { Searchbox } from '@components/form'
+import { Select as SelectData } from '@components/select/select'
 import { useLocation } from '@hooks'
+import { useQuery } from '@tanstack/react-query'
 import omit from 'lodash/omit'
 import moment from 'moment'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -17,8 +20,20 @@ export const Filter: FC<any> = ({ onClickAdd = () => '' }) => {
   const [showModalStartDate, setShowModalStartDate] = useState<boolean>(false)
   const [showModalEndDate, setShowModalEndDate] = useState<boolean>(false)
 
-  const { startDate, endDate, q = '' }: any = searchParams || {}
+  const { startDate, endDate, q = '', category_id = '' }: any = searchParams || {}
   const router = useRouter()
+
+  const dataCategoryQuery: any = useQuery({
+    // initialData: {data: []},
+    queryKey: ['getCategory'],
+    queryFn: () => getProductCategory({ page: 1, limit: 100 }),
+    select: ({ data }: any) => {
+      const res: any = data || {}
+      return res
+    },
+  })
+  const dataCategory: any = dataCategoryQuery?.data?.data || []
+  const categories: any = dataCategory?.map(({ id, name }) => ({ value: id, label: name }))
 
   // Functions
 
@@ -70,6 +85,46 @@ export const Filter: FC<any> = ({ onClickAdd = () => '' }) => {
             </div>
             {/* PART 2 */}
             <div className='d-flex flex-wrap align-items-center gap-12px col'>
+              <div className='col-auto position-relative'>
+                <div className='position-absolute start-0' style={{ zIndex: 1, top: '-16px' }}>
+                  <div className='fw-bolder fs-9px text-gray-500'>Category</div>
+                </div>
+                <SelectData
+                  sm={true}
+                  name='category'
+                  className='p-0 text-start'
+                  data={[{ value: 'all', label: 'All' }, ...categories]}
+                  isClearable={false}
+                  placeholder='Choose Category'
+                  defaultValue={category_id}
+                  styleOption={{
+                    control: {
+                      border: '1px solid #eee',
+                      borderRadius: '5px',
+                      width: 200,
+                      height: 36,
+                      minHeight: 'unset',
+                    },
+                    placeholder: { color: '#000' },
+                  }}
+                  onChange={async (e: any) => {
+                    const location = useLocation()
+                    if (e?.value && e?.value !== 'all') {
+                      const thisParams = location?.params || {}
+                      if (thisParams?.page) {
+                        thisParams.page = '1'
+                      }
+                      const thisResParams = await stringify(
+                        { ...thisParams, category_id: e?.value },
+                        { encode: false }
+                      )
+                      router.replace(`${pathname}?${thisResParams}`)
+                    } else {
+                      omitParams('category_id')
+                    }
+                  }}
+                />
+              </div>
               <div className='col-auto'>
                 <Searchbox
                   size='sm'

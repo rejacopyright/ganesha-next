@@ -15,7 +15,7 @@ interface FormProps {
 }
 
 const Index: FC<FormProps> = ({ formik }) => {
-  const dataProductQuery: any = useQuery({
+  const dataCategoryQuery: any = useQuery({
     // initialData: {data: []},
     queryKey: ['getCategory'],
     queryFn: () => getProductCategory({ page: 1, limit: 100 }),
@@ -24,8 +24,8 @@ const Index: FC<FormProps> = ({ formik }) => {
       return res
     },
   })
-  const dataProduct: any = dataProductQuery?.data?.data || []
-  const categories: any = dataProduct?.map(({ id, name }) => ({ value: id, label: name }))
+  const dataCategory: any = dataCategoryQuery?.data?.data || []
+  const categories: any = dataCategory?.map(({ id, name }) => ({ value: id, label: name }))
 
   return (
     <div className='row'>

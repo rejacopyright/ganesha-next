@@ -17,7 +17,7 @@ const Index: FC<any> = () => {
   const queryClient = useQueryClient()
   const searchParams = useSearchParams()
   const queryParams = parse(searchParams.toString() || '', { ignoreQueryPrefix: true })
-  const { page = '1', limit = '5' } = queryParams
+  const { page = '1', limit = '5', category_id = '' } = queryParams
 
   const [tmpDetail, setTmpDetail] = useState<any>()
   // MODALS
@@ -28,6 +28,7 @@ const Index: FC<any> = () => {
     q: queryParams?.q || '',
     page,
     limit,
+    category_id,
   }
 
   const dataProductQuery: any = useQuery({

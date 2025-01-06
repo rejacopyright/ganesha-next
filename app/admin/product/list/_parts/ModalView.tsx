@@ -38,7 +38,7 @@ const Index: FC<{
           </div>
           <div className='mb-15px'>
             <div className='text-gray-500'>Description</div>
-            <div className='fw-bold fs-14px'>
+            <div className='fs-14px'>
               {detail?.description ? replaceHTMLEntity(detail?.description) : ''}
             </div>
           </div>
