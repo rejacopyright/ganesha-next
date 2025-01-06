@@ -1,7 +1,7 @@
 import { deleteProduct } from '@api/product'
 import { ToastMessage } from '@components/toast'
 import { useQueryClient } from '@tanstack/react-query'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 
 const Index: FC<{
@@ -9,20 +9,14 @@ const Index: FC<{
   setShow: (e: boolean) => void
   detail: any
   queryKey: any[]
-}> = ({ show, setShow, detail = {}, queryKey }) => {
+}> = ({ show, setShow, detail, queryKey }) => {
   const queryClient = useQueryClient()
-  const [data, setData] = useState<any>()
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
-  useEffect(() => {
-    if (show) {
-      setData(detail)
-    }
-  }, [detail, show])
 
   const handleDelete = () => {
-    if (data?.id) {
+    if (detail?.id) {
       setBtnLoading(true)
-      deleteProduct(data?.id)
+      deleteProduct(detail?.id)
         .then(({ data }: any) => {
           if (data?.status === 'success') {
             ToastMessage({ type: 'success', message: data?.message })
@@ -52,8 +46,8 @@ const Index: FC<{
         <div className=''>
           <div className='p-15px d-flex flex-center h-100px'>
             <div className='text-center fs-14px'>
-              <span className=''>Are you sure want to remove</span>
-              <span className='fw-bolder mx-5px'>{data?.name || ''}</span>
+              <span className=''>Apakah anda yakin ingin menghapus</span>
+              <span className='fw-bolder mx-5px'>{detail?.full_name || 'Product'}</span>
               <span className=''>?</span>
             </div>
           </div>

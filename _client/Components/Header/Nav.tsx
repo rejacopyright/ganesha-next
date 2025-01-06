@@ -1,21 +1,21 @@
-import { getProduct } from '@api/product'
+import { getProductCategory } from '@api/product'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 
 import DropDown from './DropDown'
 
 export default function Nav({ setMobileToggle }) {
-  const productQuery: any = useQuery({
+  const productCategoryQuery: any = useQuery({
     initialData: { data: [] },
-    queryKey: ['getProduct'],
-    queryFn: () => getProduct(),
+    queryKey: ['getProductCategory'],
+    queryFn: () => getProductCategory(),
     select: ({ data }: any) => {
       const res: any = data?.data || []
       return res
     },
   })
 
-  const product: any = productQuery?.data || []
+  const productCategory: any = productCategoryQuery?.data || []
 
   return (
     <ul className='cs_nav_list fw-medium'>
@@ -23,14 +23,14 @@ export default function Nav({ setMobileToggle }) {
         <Link href='/'>Home</Link>
       </li>
       <li className='menu-item-has-children'>
-        <Link href='/product' onClick={() => setMobileToggle(false)}>
+        <Link href='/product/category' onClick={() => setMobileToggle(false)}>
           Product
         </Link>
         <DropDown>
           <ul>
-            {product?.map((item, key: number) => (
+            {productCategory?.map((item, key: number) => (
               <li key={key}>
-                <Link href={`/product/${item?.id}`} onClick={() => setMobileToggle(false)}>
+                <Link href={`/product/category/${item?.id}`} onClick={() => setMobileToggle(false)}>
                   {item?.name}
                 </Link>
               </li>

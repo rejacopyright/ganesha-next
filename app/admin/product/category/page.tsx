@@ -1,5 +1,5 @@
 'use client'
-import { getProduct } from '@api/product'
+import { getProductCategory } from '@api/product'
 import Tooltip from '@components/tooltip'
 import { APP_ADMIN_PATH, isDev, replaceHTMLEntity } from '@helpers'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -23,50 +23,50 @@ const Index: FC<any> = () => {
   const [showModalView, setShowModalView] = useState<boolean>(false)
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
 
-  const dataProductQueryParams: any = {
+  const dataProductCategoryQueryParams: any = {
     q: queryParams?.q || '',
     page,
     limit,
   }
 
-  const dataProductQuery: any = useQuery({
+  const dataProductCategoryQuery: any = useQuery({
     // initialData: {data: []},
-    queryKey: ['getProduct', { dataProductQueryParams }],
-    queryFn: () => getProduct(dataProductQueryParams),
+    queryKey: ['getProductCategory', { dataProductCategoryQueryParams }],
+    queryFn: () => getProductCategory(dataProductCategoryQueryParams),
     select: ({ data }: any) => {
       const res: any = data || {}
       return res
     },
   })
-  const dataProduct: any = dataProductQuery?.data?.data || []
-  const _dataProductTotal = dataProductQuery?.data?.total || 0
-  const _pageIsLoading: any = !dataProductQuery?.isFetched
+  const dataProductCategory: any = dataProductCategoryQuery?.data?.data || []
+  const _dataProductCategoryTotal = dataProductCategoryQuery?.data?.total || 0
+  const _pageIsLoading: any = !dataProductCategoryQuery?.isFetched
 
   return (
     <div className='content'>
-      <title>Products</title>
+      <title>Product Category</title>
       <Filter />
       <div className='d-flex align-items-center gap-8px fs-16px fw-500 my-10px'>
         {isDev && (
           <div
             className='btn btn-sm btn-dark m-0 py-1 px-3 ms-auto'
             onClick={() => {
-              queryClient.resetQueries({ queryKey: ['getProduct'] })
+              queryClient.resetQueries({ queryKey: ['getProductCategory'] })
             }}>
             Clear Cache
           </div>
         )}
       </div>
       <div className='row m-0'>
-        {dataProduct?.map((item, index: number) => (
+        {dataProductCategory?.map((item, index: number) => (
           <div key={index} className='col-xl-4 col-md-3 col'>
             <div className='card-2 py-10px px-15px radius-15 user-select-none my-10px bg-white'>
-              <div className='fw-bolder fs-20px mb-5px'>{item?.name ?? ''}</div>
+              <div className='fw-bolder fs-16px mb-5px'>{item?.name ?? ''}</div>
               <div className='fs-14px text-truncate-3'>
                 {item?.description ? replaceHTMLEntity(item?.description) : ''}
               </div>
               <div className='d-flex align-items-center justify-content-end gap-10px mt-10px'>
-                <Tooltip placement='top' title='View Product'>
+                <Tooltip placement='top' title='View Product Category'>
                   <div
                     className='btn btn-light-primary btn-flex flex-center p-0 w-30px h-30px radius-50'
                     onClick={(e) => {
@@ -77,16 +77,16 @@ const Index: FC<any> = () => {
                     <div className='fas fa-eye' />
                   </div>
                 </Tooltip>
-                <Tooltip placement='top' title='Edit Product'>
+                <Tooltip placement='top' title='Edit Product Category'>
                   <div
                     className='btn btn-light-warning btn-flex flex-center p-0 w-30px h-30px radius-50'
                     onClick={() => {
-                      router.push(`${APP_ADMIN_PATH}/product/create?id=${item?.id}`)
+                      router.push(`${APP_ADMIN_PATH}/product/category/create?id=${item?.id}`)
                     }}>
                     <div className='fas fa-pen-alt' />
                   </div>
                 </Tooltip>
-                <Tooltip placement='auto' title='Delete Product'>
+                <Tooltip placement='auto' title='Delete Product Category'>
                   <div
                     className='btn btn-light-danger btn-flex flex-center p-0 w-30px h-30px radius-50'
                     onClick={(e) => {
@@ -103,15 +103,15 @@ const Index: FC<any> = () => {
         ))}
       </div>
 
-      {/* Modal View Product */}
+      {/* Modal View Product Category */}
       <ModalView show={showModalView} setShow={setShowModalView} detail={tmpDetail} />
 
-      {/* Modal Delete Product */}
+      {/* Modal Delete Product Category */}
       <ModalDelete
         show={showModalDelete}
         setShow={setShowModalDelete}
         detail={tmpDetail}
-        queryKey={['getProduct', { dataProductQueryParams }]}
+        queryKey={['getProductCategory', { dataProductCategoryQueryParams }]}
       />
     </div>
   )

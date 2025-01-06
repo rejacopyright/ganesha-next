@@ -21,12 +21,14 @@ const Index: FC<any> = () => {
           </span>
         </div>
       </div>
-      <AsideMenuItem
+      <AsideMenuItemWithSub
         to={`${APP_ADMIN_PATH}/product`}
         icon='/media/icons/general/gen056.svg'
         title='Product'
-        fontIcon='bi-app-indicator'
-      />
+        fontIcon='bi-app-indicator'>
+        <AsideMenuItem to={`${APP_ADMIN_PATH}/product/category`} title='Category' hasBullet />
+        <AsideMenuItem to={`${APP_ADMIN_PATH}/product/list`} title='Product List' hasBullet />
+      </AsideMenuItemWithSub>
       <AsideMenuItem
         to={`${APP_ADMIN_PATH}/team`}
         icon='/media/icons/communication/com006.svg'

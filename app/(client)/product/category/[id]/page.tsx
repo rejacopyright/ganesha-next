@@ -1,6 +1,6 @@
 'use client'
 
-import { getDetailProduct } from '@api/product'
+import { getDetailProductCategory } from '@api/product'
 import BreadCumb from '@client/Components/Common/BreadCumb'
 import TextEditor from '@components/form/TextEditor'
 import { useQuery } from '@tanstack/react-query'
@@ -10,17 +10,17 @@ import { FC } from 'react'
 const Index: FC<any> = () => {
   const id: any = useParams()?.id
 
-  const productQuery: any = useQuery({
-    queryKey: ['getDetailProduct', id],
-    queryFn: () => getDetailProduct(id),
+  const productCategoryQuery: any = useQuery({
+    queryKey: ['getDetailProductCategory', id],
+    queryFn: () => getDetailProductCategory(id),
     select: ({ data }) => data,
   })
 
-  const product: any = productQuery?.data || {}
+  const productCategory: any = productCategoryQuery?.data || {}
 
   return (
     <div className='service-page'>
-      <BreadCumb Title={product?.name} />
+      <BreadCumb Title={productCategory?.name} />
       {/* <ProjectDetailsCenter1 /> */}
       <div className='service-details-area-all sp pt-50px bg-white'>
         <div className='container'>
@@ -34,10 +34,10 @@ const Index: FC<any> = () => {
                   </div> */}
                     <div className='space30'></div>
                     <div className='heading1'>
-                      <h2>{product?.name}</h2>
+                      <h2>{productCategory?.name}</h2>
                       <div className='space16'></div>
                       <div className='w-100'>
-                        <TextEditor defaultData={product?.description || ''} disabled />
+                        <TextEditor defaultData={productCategory?.description || ''} disabled />
                       </div>
                     </div>
                   </div>

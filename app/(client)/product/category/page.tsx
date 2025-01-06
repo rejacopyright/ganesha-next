@@ -1,5 +1,5 @@
 'use client'
-import { getProduct } from '@api/product'
+import { getProductCategory } from '@api/product'
 import BreadCumb from '@client/Components/Common/BreadCumb'
 import Cta1 from '@client/Components/Cta/Cta1'
 import { replaceHTMLEntity } from '@helpers'
@@ -8,17 +8,17 @@ import Link from 'next/link'
 import { FC } from 'react'
 
 const Index: FC<any> = () => {
-  const productQuery: any = useQuery({
+  const productCategoryQuery: any = useQuery({
     initialData: { data: [] },
-    queryKey: ['getProduct'],
-    queryFn: () => getProduct(),
+    queryKey: ['getProductCategory'],
+    queryFn: () => getProductCategory(),
     select: ({ data }: any) => {
       const res: any = data?.data || []
       return res
     },
   })
 
-  const product: any = productQuery?.data || []
+  const productCategory: any = productCategoryQuery?.data || []
   return (
     <div className='service-pages'>
       <BreadCumb Title='Our Products' />
@@ -26,9 +26,9 @@ const Index: FC<any> = () => {
         <div className='space50' />
         <div className='container'>
           <div className='row'>
-            {product.map((item, i) => (
+            {productCategory.map((item, i) => (
               <div key={i} className='col-lg-6 col-md-6'>
-                <Link className='' href={`/product/${item?.id || '/'}`}>
+                <Link className='' href={`/product/category/${item?.id || '/'}`}>
                   <div className='servcie2-box'>
                     <div className='icon'>
                       <img src='/client/icons/service-page-icon1.png' alt='' />
