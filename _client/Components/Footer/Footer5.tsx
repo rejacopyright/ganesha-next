@@ -1,10 +1,9 @@
-import { APP_EMAIL, APP_NAME, APP_WEBSITE } from '@helpers'
-import Link from 'next/link'
+import { APP_NAME } from '@helpers'
 
 const Footer5 = () => {
   return (
-    <div className='footer7 _relative bg-white border-top border-gray-300 pt-100px'>
-      <div className='container'>
+    <div className='footer7 _relative bg-white border-top-xxx border-gray-300 pt-50px'>
+      {/* <div className='container'>
         <div className='row'>
           <div className='col-lg-4 col-md-6 col-12'>
             <div className='single-footer-items footer-logo-area'>
@@ -135,7 +134,7 @@ const Footer5 = () => {
         </div>
 
         <div className='space40'></div>
-      </div>
+      </div> */}
 
       <div className='copyright-area'>
         <div className='container'>

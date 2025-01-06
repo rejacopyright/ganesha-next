@@ -3,10 +3,10 @@
 import About4 from '@client/Components/About/About4'
 import Blog5 from '@client/Components/Blog/Blog5'
 import Brand1 from '@client/Components/Brand/Brand1'
-import Cta4 from '@client/Components/Cta/Cta4'
-import Faq2 from '@client/Components/Faq/Faq2'
+// import Cta4 from '@client/Components/Cta/Cta4'
+// import Faq2 from '@client/Components/Faq/Faq2'
 import HeroBanner5 from '@client/Components/HeroBanner/HeroBanner5'
-import HowWork3 from '@client/Components/HowWork/HowWork3'
+// import HowWork3 from '@client/Components/HowWork/HowWork3'
 import Services4 from '@client/Components/Services/Services4'
 import Team3 from '@client/Components/Team/Team3'
 import { FC } from 'react'
@@ -43,12 +43,12 @@ const Home: FC<any> = () => {
         btnUrl='/about'
       />
       <Services4 />
-      <HowWork3 />
+      {/* <HowWork3 /> */}
       <Team3 />
-      <Faq2 />
+      {/* <Faq2 /> */}
       <Brand1 />
       <Blog5 />
-      <Cta4 />
+      {/* <Cta4 /> */}
     </div>
   )
 }
