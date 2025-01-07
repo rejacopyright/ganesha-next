@@ -1,3 +1,5 @@
+import TextEditor from '@components/form/TextEditor'
+
 const Vission1 = ({ title, description }) => {
   return (
     <div className='solution about-solution sp bg-white'>
@@ -35,7 +37,10 @@ const Vission1 = ({ title, description }) => {
               </span>
               <h2>{title}</h2>
               <div className='space16'></div>
-              <p>{description}</p>
+              {/* <p>{description}</p> */}
+              <div className='w-100'>
+                <TextEditor defaultData={description || ''} disabled />
+              </div>
 
               {/* <div className='item-box'>
                 <div className='icon'>

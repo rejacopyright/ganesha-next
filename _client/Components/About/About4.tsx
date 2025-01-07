@@ -1,3 +1,4 @@
+import { replaceHTMLEntity } from '@helpers'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -46,8 +47,8 @@ const About4: FC<any> = ({
               </span>
               <h2 className='title tg-element-title'>{Title}</h2>
               <div className='space16'></div>
-              <p data-aos='fade-left' data-aos-duration='700'>
-                {content}
+              <p data-aos='fade-left' data-aos-duration='700' className='text-truncate-3'>
+                {content ? replaceHTMLEntity(content) : ''}
               </p>
 
               <div className='space30'></div>

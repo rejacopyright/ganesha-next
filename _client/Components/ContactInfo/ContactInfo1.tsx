@@ -1,8 +1,10 @@
+import TextEditor from '@components/form/TextEditor'
+
 const ContactInfo1 = ({ config }) => {
   return (
     <div>
-      <div className='space100'></div>
-      <div className='contact-page'>
+      <div className='contact-page bg-white'>
+        <div className='space100' />
         <div className='container'>
           <div className='row'>
             <div className='col-lg-6'>
@@ -49,10 +51,13 @@ const ContactInfo1 = ({ config }) => {
                       <img src='/client/icons/contact-page-icon3.png' alt='' />
                     </div>
                     <div className='heading'>
-                      <h5>Office Location</h5>
-                      <a href={`tel:${config?.phone}`} className='text'>
+                      <h5 className='fs-18px'>Office Location</h5>
+                      {/* <a href={`tel:${config?.phone}`} className='text'>
                         {config?.address}
-                      </a>
+                      </a> */}
+                      <div className='w-100 mt-10px'>
+                        <TextEditor defaultData={config?.address || ''} disabled />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -111,6 +116,7 @@ const ContactInfo1 = ({ config }) => {
             </div>
           </div>
         </div>
+        <div className='space100' />
       </div>
 
       <div className='space100'></div>

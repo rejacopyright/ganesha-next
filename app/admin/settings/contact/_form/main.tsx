@@ -1,3 +1,4 @@
+import TextEditor from '@components/form/TextEditor'
 import { configClass } from '@helpers'
 import { FormikProps } from 'formik'
 import { FC } from 'react'
@@ -43,14 +44,15 @@ const Index: FC<FormProps> = ({ formik }) => {
       </div>
       <div className='col-12 my-10px'>
         <div className={configClass?.label}>Company Address</div>
-        <input
-          type='text'
-          placeholder='Enter Address'
-          // autoComplete='off'
-          name='address'
-          className={configClass?.form}
-          onChange={formik.handleChange}
-          value={formik.values?.address}
+        <TextEditor
+          id='editor'
+          options={{ minHeight: '300px' }}
+          placeholder='Enter description here...'
+          defaultData={formik?.values?.address || ''}
+          onChange={(e: any) => {
+            formik.setFieldValue('address', e)
+          }}
+          loading={false}
         />
         {formik?.errors?.address && (
           <div className={configClass.formError}>{formik?.errors?.address}</div>
