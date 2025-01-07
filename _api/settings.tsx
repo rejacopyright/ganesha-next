@@ -1,5 +1,20 @@
 import axios from '@api/axios'
 
+export const getConfig = () => {
+  return axios({
+    method: 'get',
+    url: `global/config`,
+  })
+}
+
+export const updateConfig = (data: any) => {
+  return axios({
+    method: 'post',
+    url: `global/config/update`,
+    data,
+  })
+}
+
 export const createTag = (data: any) => {
   return axios({
     method: 'post',

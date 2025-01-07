@@ -1,6 +1,4 @@
-import { APP_EMAIL } from '@helpers'
-
-const ContactInfo1 = () => {
+const ContactInfo1 = ({ config }) => {
   return (
     <div>
       <div className='space100'></div>
@@ -17,41 +15,47 @@ const ContactInfo1 = () => {
                     on its
                   </p>
                 </div>
-                <div className='contact-box'>
-                  <div className='icon'>
-                    <img src='/client/icons/contact-page-icon1.png' alt='' />
+                {config?.phone && (
+                  <div className='contact-box col-auto'>
+                    <div className='icon'>
+                      <img src='/client/icons/contact-page-icon1.png' alt='' />
+                    </div>
+                    <div className='heading'>
+                      <h5>Contact Us</h5>
+                      <a href={`https://wa.me/${config?.phone}`} target='_blank' className='text'>
+                        {config?.phone || ''}
+                      </a>
+                    </div>
                   </div>
-                  <div className='heading'>
-                    <h5>Contact Us</h5>
-                    <a href='tel:(124)555-6565' className='text'>
-                      (124) 555-6565
-                    </a>
-                  </div>
-                </div>
+                )}
 
-                <div className='contact-box'>
-                  <div className='icon'>
-                    <img src='/client/icons/contact-page-icon2.png' alt='' />
+                {config?.email && (
+                  <div className='contact-box col-auto'>
+                    <div className='icon'>
+                      <img src='/client/icons/contact-page-icon2.png' alt='' />
+                    </div>
+                    <div className='heading'>
+                      <h5>Send Us a Mail</h5>
+                      <a href={`mailto:${config?.email}`} className='text'>
+                        {config?.email || ''}
+                      </a>
+                    </div>
                   </div>
-                  <div className='heading'>
-                    <h5>Send Us a Mail</h5>
-                    <a href={`mailto:${APP_EMAIL}`} className='text'>
-                      {APP_EMAIL}
-                    </a>
-                  </div>
-                </div>
+                )}
 
-                <div className='contact-box'>
-                  <div className='icon'>
-                    <img src='/client/icons/contact-page-icon3.png' alt='' />
+                {config?.address && (
+                  <div className='contact-box'>
+                    <div className='icon col-auto'>
+                      <img src='/client/icons/contact-page-icon3.png' alt='' />
+                    </div>
+                    <div className='heading'>
+                      <h5>Office Location</h5>
+                      <a href={`tel:${config?.phone}`} className='text'>
+                        {config?.address}
+                      </a>
+                    </div>
                   </div>
-                  <div className='heading'>
-                    <h5>Office Location</h5>
-                    <a href='tel:(124)555-6565' className='text'>
-                      73 Bridge St Brooklyn Arakansas <br /> 85032 United States, NY 10018
-                    </a>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -113,7 +117,7 @@ const ContactInfo1 = () => {
 
       <div className='contact-map-page'>
         <iframe
-          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d196064.65881483705!2d88.93201515862421!3d24.061083775097945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39febca82f6a21ed%3A0x4040980d7c6874f8!2sKushtia%20District!5e0!3m2!1sen!2sbd!4v1673751720794!5m2!1sen!2sbd'
+          src='https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=stp itb&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed'
           width='600'
           height='450'
           allowFullScreen

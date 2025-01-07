@@ -2,7 +2,8 @@
 
 import { getConfig } from '@api/settings'
 import BreadCumb from '@client/Components/Common/BreadCumb'
-import Vission1 from '@client/Components/Mission/Vission1'
+import ContactInfo1 from '@client/Components/ContactInfo/ContactInfo1'
+import Cta4 from '@client/Components/Cta/Cta4'
 import { useQuery } from '@tanstack/react-query'
 import { FC } from 'react'
 
@@ -17,8 +18,9 @@ const Index: FC<any> = () => {
   const config: any = configQuery?.data || {}
   return (
     <div className='service-page'>
-      <BreadCumb Title='About Us' />
-      <Vission1 title={config?.about_title || ''} description={config?.about_description || ''} />
+      <BreadCumb Title='Contact Us' />
+      <ContactInfo1 config={config} />
+      <Cta4 />
     </div>
   )
 }

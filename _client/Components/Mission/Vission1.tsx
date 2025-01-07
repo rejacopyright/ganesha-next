@@ -1,12 +1,9 @@
-import { APP_NAME } from '@helpers'
-import Link from 'next/link'
-
-const Vission1 = () => {
+const Vission1 = ({ title, description }) => {
   return (
     <div className='solution about-solution sp bg-white'>
       <div className='container'>
         <div className='row align-items-center'>
-          <div className='col-lg-6'>
+          {/* <div className='col-lg-6'>
             <div className='images'>
               <div className='row'>
                 <div className='col-lg-12'>
@@ -30,21 +27,17 @@ const Vission1 = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className='col-lg-6'>
             <div className='heading1'>
               <span className='span'>
-                <img src='/client/icons/span1.png' alt='' /> Our Vision
+                <img src='/client/icons/span1.png' alt='' /> About Us
               </span>
-              <h2>Driving Innovation: Our Vision at {APP_NAME}</h2>
+              <h2>{title}</h2>
               <div className='space16'></div>
-              <p>
-                At {APP_NAME}, our vision is to be the leading force driving digital transformation
-                and innovation worldwide. We envision a future where businesses of all sizes have
-                the tools and expertise they need to thrive in an increasingly digital world.
-              </p>
+              <p>{description}</p>
 
-              <div className='item-box'>
+              {/* <div className='item-box'>
                 <div className='icon'>
                   <div className=''>
                     <img src='/client/icons/about-solution-iocn1.png' alt='' />
@@ -60,9 +53,9 @@ const Vission1 = () => {
                     business operations enables seamless
                   </p>
                 </div>
-              </div>
+              </div> */}
 
-              <div className='item-box'>
+              {/* <div className='item-box'>
                 <div className='icon'>
                   <div className=''>
                     <img src='/client/icons/about-solution-iocn2.png' alt='' />
@@ -78,9 +71,9 @@ const Vission1 = () => {
                     needs with our managed IT services.
                   </p>
                 </div>
-              </div>
+              </div> */}
 
-              <div className='space30'></div>
+              {/* <div className='space30'></div>
               <div className=''>
                 <Link className='theme-btn1' href='/contact'>
                   Get A Quote{' '}
@@ -88,7 +81,7 @@ const Vission1 = () => {
                     <i className='bi bi-arrow-right'></i>
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

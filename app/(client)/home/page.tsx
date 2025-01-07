@@ -1,5 +1,6 @@
 'use client'
 
+import { getConfig } from '@api/settings'
 import About4 from '@client/Components/About/About4'
 import Blog5 from '@client/Components/Blog/Blog5'
 import Brand1 from '@client/Components/Brand/Brand1'
@@ -9,19 +10,31 @@ import HeroBanner5 from '@client/Components/HeroBanner/HeroBanner5'
 // import HowWork3 from '@client/Components/HowWork/HowWork3'
 import Services4 from '@client/Components/Services/Services4'
 import Team3 from '@client/Components/Team/Team3'
+import { APP_NAME } from '@helpers'
+import { useQuery } from '@tanstack/react-query'
 import { FC } from 'react'
 
 const Home: FC<any> = () => {
+  const configQuery: any = useQuery({
+    initialData: { data: {} },
+    queryKey: ['getConfig'],
+    queryFn: () => getConfig(),
+    select: ({ data }: any) => data || {},
+  })
+
+  const config: any = configQuery?.data || {}
+
   return (
     <div className=''>
+      <title>{APP_NAME}</title>
       <HeroBanner5
         subtitle='Our Integrated IT Solutions'
-        title='Harness Technology Drive Growth with Our IT Solutions'
-        content='Welcome to Your Company Techniq where innovative IT solutions meet your business needs head-on.'
+        title={config?.home_title || ''}
+        content={config?.home_description || ''}
         btnone='Free Consultation'
-        btnoneurl='/service'
+        btnoneurl='/contact'
         btntwo='Discover More'
-        btntwourl='/service'
+        btntwourl='/product/category'
         image1='/client/img/hero7-image.png'
         shape2='/client/img/hero7-shape1.png'
         shape3='/client/img/hero7-shape2.png'
@@ -34,8 +47,8 @@ const Home: FC<any> = () => {
         image3='/client/img/about4-img3.png'
         shape1='/client/img/about3-shape1.png'
         subTitle='About Us 👋'
-        Title='Innovative IT Solutions For Modern Businesses'
-        content='Our journey began with a vision to empower businesses of all sizes with cutting-edge technology solutions tailored to their unique needs. Our team of experienced professionals brings together a diverse range'
+        Title={config?.about_title || ''}
+        content={config?.about_description || ''}
         expNum='25'
         expCon='Years Experience'
         featurelist={['Tech Solution', 'It Consulting', 'Cyber Security']}

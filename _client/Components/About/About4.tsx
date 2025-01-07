@@ -9,9 +9,9 @@ const About4: FC<any> = ({
   subTitle,
   Title,
   content,
-  expNum,
-  expCon,
-  featurelist,
+  _expNum,
+  _expCon,
+  _featurelist,
   btnName,
   btnUrl,
 }) => {
@@ -51,7 +51,7 @@ const About4: FC<any> = ({
               </p>
 
               <div className='space30'></div>
-              <div className='row align-items-center'>
+              {/* <div className='row align-items-center'>
                 <div className='col-md-4'>
                   <div className='counter-box' data-aos='fade-left' data-aos-duration='900'>
                     <h3>{expNum}</h3>
@@ -70,8 +70,8 @@ const About4: FC<any> = ({
                     ))}
                   </ul>
                 </div>
-              </div>
-              <div className='space30'></div>
+              </div> */}
+              {/* <div className='space30'></div> */}
               <div className='' data-aos='fade-left' data-aos-duration='1100'>
                 <Link className='theme-btn5' href={btnUrl}>
                   {btnName}
